@@ -1,4 +1,4 @@
-export enum State {
+export enum StateEnum {
     ASIGNADO = 'ASIGNADO',
     INICIADO = 'INICIADO',
     FINALIZADO_EXITO = 'FINALIZADO_EXITO',

@@ -2,6 +2,7 @@ import { Get, Route, Tags,  Post, Body, Path, Put } from "tsoa";
 import {User} from '../models'
 
 import {IUserPayload, UserRepository} from '../repositories/user.repository'
+import { RoleEnum } from "../models/role.enum";
 @Route("users")
 @Tags("User")
 export default class UserController {
@@ -15,7 +16,9 @@ export default class UserController {
   }
 
   @Post("/")
-  public async createUser(@Body() body: IUserPayload): Promise<User> {
+  public async createUser(@Body() body: IUserPayload): Promise<any> {
+    if(body && body.role == RoleEnum.ADMINISTRADOR)
+      return{mensaje:"NO PUEDES CREAR MAS ADMINISTRADORES"}
     return this.userRepository.createUser(body)
   }
   @Put("/")

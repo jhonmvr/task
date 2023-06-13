@@ -30,7 +30,24 @@ docker docker-compose up -d
 ```
 ```
 http://localhost:8000/docs/
+
+
 ```
+``
+curl -X 'POST' \
+  'http://localhost:8000/login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "admin@mail.com",
+  "password": "admin123"
+
+}'
+
+
+``
+
+
 
 ## Run tests
 

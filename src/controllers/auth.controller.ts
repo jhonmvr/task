@@ -3,7 +3,7 @@ import data from "../config/database";
 
 import {IUserPayload, UserRepository} from '../repositories/user.repository'
 import  jwt from 'jsonwebtoken';
-import { User } from "src/models";
+import { User } from "../models";
 @Route("login")
 @Tags("Auth")
 export default class AuthController {
@@ -14,7 +14,7 @@ export default class AuthController {
 
 
   @Post("/")
-  public async login(@Body() body: IUserPayload): Promise<any> {
+  public async login(@Body() body: User): Promise<any> {
     try{
       const user =await this.userRepository.login(body);
       if(user){
@@ -39,7 +39,7 @@ export default class AuthController {
 
   }
   @Post("/change")
-  public async changePass(@Body() body: IUserPayload): Promise<any> {
+  public async changePass(@Body() body: User): Promise<any> {
     try{
      // console.log("changePass",body)
       const user =await this.userRepository.changePass(body);

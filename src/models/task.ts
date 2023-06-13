@@ -1,7 +1,7 @@
 import { RoleEnum } from "./role.enum";
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, UpdateDateColumn, ManyToOne} from "typeorm";
 import { User } from "./user";
-import { State } from "./state.enum";
+import { StateEnum } from "./state.enum";
 
 
 @Entity()
@@ -12,8 +12,8 @@ export class Task {
 
     @Column({
         type: 'enum',
-        enum: State,
-        default: State.ASIGNADO
+        enum: StateEnum,
+        default: StateEnum.ASIGNADO
     })
     state!: string;
 

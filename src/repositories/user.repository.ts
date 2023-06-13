@@ -1,10 +1,11 @@
 
-import {User} from '../models'
+import {User, RoleEnum} from '../models'
 import dataSource from "../config/database";
 import { Repository } from 'typeorm';
 import bcrypt from 'bcrypt';
 
 export interface IUserPayload{
+  role: RoleEnum;
 
 }
 export class UserRepository extends Repository<User> {
