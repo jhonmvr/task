@@ -6,13 +6,28 @@ import { verifyToken } from "../utils/token-verify";
 const router = express.Router();
 
 router.get("/", async (_req, res) => {
+  const decoded:any = verifyToken(_req,['ADMINISTRADOR','EJECUTOR']);
+  if(!decoded){
+    return res.status(401).send({message: "No autorizado"})
+  }
+
   const controller = new TaskController();
-  const response = await controller.getTasks();
+  let response
+  if(decoded.role=='ADMINISTRADOR')
+    response = await controller.getTasks();
+  else if(decoded.role=='EJECUTOR')
+    response = await controller.getTasks(decoded?.id);
+  else if(decoded.role=='AUDITOR')
+    response = await controller.getTasks(decoded?.id);
   return res.send(response);
 });
 
 router.post("/", async (req, res) => {
   try{
+    const decoded = verifyToken(req,['ADMINISTRADOR']);
+    if(!decoded){
+      return res.status(401).send({message: "No autorizado"})
+    }
     const controller = new TaskController();
     const response = await controller.createTask(req.body);
     return res.send(response);
@@ -21,14 +36,25 @@ router.post("/", async (req, res) => {
   }
 });
 router.put("/", async (req, res) => {
+  if(!verifyToken(req,['ADMINISTRADOR','EJECUTOR'])){
+    return res.status(401).send({message: "No autorizado"})
+  }
   const controller = new TaskController();
   const response = await controller.updateTask(req.body);
   return res.send(response);
 });
 
-router.get("/:id", async (req, res) => {
+router.put("/updateComment", async (req, res) => {
+  if(!verifyToken(req,['ADMINISTRADOR','EJECUTOR'])){
+    return res.status(401).send({message: "No autorizado"})
+  }
+  const controller = new TaskController();
+  const response = await controller.updateComment(req.body);
+  return res.send(response);
+});
 
-  if(!verifyToken(req,['EJECUTOR'])){
+router.get("/:id", async (req, res) => {
+  if(!verifyToken(req,['ADMINISTRADOR'])){
     return res.status(401).send({message: "No autorizado"})
   }
   const controller = new TaskController();
@@ -38,8 +64,7 @@ router.get("/:id", async (req, res) => {
   return res.send(response);
 });
 router.delete("/:id", async (req, res) => {
-
-  if(!verifyToken(req,['EJECUTOR'])){
+  if(!verifyToken(req,['ADMINISTRADOR'])){
     return res.status(401).send({message: "No autorizado"})
   }
   const controller = new TaskController();

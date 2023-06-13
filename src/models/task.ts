@@ -23,6 +23,11 @@ export class Task {
     @Column("text")
     descripcion!: string;
 
+    @Column("text",{
+        nullable: true
+    })
+    comment!: string;
+
 
     @ManyToOne(() => User, (user) => user.tasks)
     user!: User;

@@ -6,25 +6,33 @@ import { verifyToken } from "../utils/token-verify";
 const router = express.Router();
 
 router.get("/", async (_req, res) => {
+  if(!verifyToken(_req,['ADMINISTRADOR'])){
+    return res.status(401).send({message: "No autorizado"})
+  }
   const controller = new UserController();
   const response = await controller.getUsers();
   return res.send(response);
 });
 
 router.post("/", async (req, res) => {
+  if(!verifyToken(req,['ADMINISTRADOR'])){
+    return res.status(401).send({message: "No autorizado"})
+  }
   const controller = new UserController();
   const response = await controller.createUser(req.body);
   return res.send(response);
 });
 router.put("/", async (req, res) => {
+  if(!verifyToken(req,['ADMINISTRADOR'])){
+    return res.status(401).send({message: "No autorizado"})
+  }
   const controller = new UserController();
   const response = await controller.updateUser(req.body);
   return res.send(response);
 });
 
 router.get("/:id", async (req, res) => {
-
-  if(!verifyToken(req,['EJECUTOR'])){
+  if(!verifyToken(req,['ADMINISTRADOR'])){
     return res.status(401).send({message: "No autorizado"})
   }
   const controller = new UserController();

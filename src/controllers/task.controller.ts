@@ -1,21 +1,20 @@
 import { UserRepository } from "../repositories/user.repository";
 import { Task } from "../models/task";
 import { ITaskPayload, TaskRepository } from "../repositories/task.repository";
-import { Get, Route, Tags,  Post, Body, Path, Put, Delete } from "tsoa";
+import { Get, Route, Tags,  Post, Body, Path, Put, Delete, Query } from "tsoa";
 import { RoleEnum } from "../models/role.enum";
 
 @Route("tasks")
 @Tags("Task")
 export default class TaskController {
-
   private readonly taskRepository:TaskRepository = new TaskRepository();
   private readonly userRepository:UserRepository = new UserRepository();
   constructor(){
 
   }
   @Get("/")
-  public async getTasks(): Promise<Array<Task>> {
-    return this.taskRepository.getTasks()
+  public async getTasks(@Query() id?: string): Promise<Array<Task>> {
+    return this.taskRepository.getTasks(Number(id))
   }
 
   @Post("/")
@@ -32,6 +31,13 @@ export default class TaskController {
 
     return this.taskRepository.updateTask(body)
   }
+
+  @Put("/updateComment")
+  updateComment(@Body() body: ITaskPayload) {
+
+    return this.taskRepository.updateComment(body)
+  }
+
 
   @Get("/:id")
   public async getTask(@Path() id: string): Promise<Task | null> {

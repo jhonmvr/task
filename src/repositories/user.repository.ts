@@ -57,6 +57,7 @@ export class UserRepository extends Repository<User> {
           email: payload.email,
         }, {
           password: hash,
+          isFirtsLogin: false
         });
       }
 

@@ -22,7 +22,9 @@ export class TaskRepository extends Repository<Task> {
   public async findAll(): Promise<Task[]> {
       return this.taskRepository.find();
   }
-  public getTasks  = async () :Promise<Array<Task>> => {
+  public getTasks  = async (id?:number) :Promise<Array<Task>> => {
+    if(id)
+      return this.findBy({user:{id:id}});
     return this.taskRepository.find();
   }
 
@@ -39,9 +41,22 @@ export class TaskRepository extends Repository<Task> {
     return await this.taskRepository.update({
       id: payload.id,
     }, {
-      descripcion:payload.comment,
+      descripcion:payload.descripcion,
       state:payload.state
     });;
+  }
+  public async updateComment (payload: any)  {
+    console.log("updateComment",payload)
+    const user = await this.taskRepository.findOneBy([{id:payload.id,state:'FINALIZADO_ERROR'},{id:payload.id,state:'FINALIZADO_EXITO'}]);
+
+    console.log("user",user)
+    if(user)
+      return await this.taskRepository.update({
+        id: payload.id,
+      }, {
+        comment:payload.comment
+      });
+    return {mensaje:"no puedes hacer eso"}
   }
 
 

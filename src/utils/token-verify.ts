@@ -10,7 +10,7 @@ export function verifyToken(req:any, role:string[]) {
       const rol = role.find(x=> x == decoded.role)
       console.log("rol",rol)
       if(rol)
-        return true;
+        return decoded;
 
     }
 
