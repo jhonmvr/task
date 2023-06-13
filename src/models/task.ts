@@ -1,7 +1,7 @@
 import { RoleEnum } from "./role.enum";
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, UpdateDateColumn, ManyToOne} from "typeorm";
 import { User } from "./user";
-import { State } from "./role.enum copy";
+import { State } from "./state.enum";
 
 
 @Entity()

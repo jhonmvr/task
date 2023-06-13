@@ -26,7 +26,10 @@
 ## Build Docker image locally
 
 ```sh
-docker build -t prueba .
+docker docker-compose up -d
+```
+```
+http://localhost:8000/docs/
 ```
 
 ## Run tests
