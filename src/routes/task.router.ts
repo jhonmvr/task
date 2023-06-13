@@ -2,7 +2,7 @@ import express from "express";
 import TaskController from "../controllers/task.controller";
 import  jwt from 'jsonwebtoken';
 import data from '../config/database'
-import { verifyToken } from "../utils/token-verify";
+import { verifyToken } from "../middlewares/token-verify";
 const router = express.Router();
 
 router.get("/", async (_req, res) => {
